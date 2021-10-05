@@ -1,19 +1,30 @@
 
-<div class="todos">
-  <form (submit)="addTodo()">
-    <input type="text"
-           name="inputTodo"
-           placeholder="Enter todo..."
-           class="todo-input"
-           [(ngModel)] ="inputTodo"
+<div class="container">
+ <div class="todos">
+   <form #form="ngForm" (ngSubmit)="addTodo(form)">
+     <input required  #todoTextField="ngModel"
+            ngModel
+            minlength="3" type="text"
+            name="inputTodo"
+            placeholder="Enter todo..."
+            class="todo-input"
+            [(ngModel)] ="inputTodo"
+            pattern="[A-Za-z]"
 
     />
-    <input type="submit" value="Add new Todo" class="todo-submit">
+     <div *ngIf="todoTextField.invalid ">
+       <p class="text-danger" *ngIf="todoTextField.errors?.required && todoTextField.touched">Please enter your Todo-list</p>
+      <p class="text-danger" *ngIf="todoTextField.errors?.minlength">Todo must be at least three character!</p>
+     <p class="text-danger" *ngIf="todoTextField.errors?.pattern">Text can not be empty or invalid text</p>
+     </div>
+       <input type="submit" value="Add new Todo" class="todo-submit">
   </form>
 
   <div class="todo" *ngFor="let todo of todos; let i =index;">
-    <div class="id">{{i}}</div>
-    <div class="content" (click)="toggleDone(i)">{{todo.content}}</div>
+    <div class="id">{{i+1}}</div>
+    <div class="content">{{todo.content}}</div>
     <button class="delete" (click)="deleteTodo(i)">Remove</button>
   </div>
 </div>
+ </div>
+

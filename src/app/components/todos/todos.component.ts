@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import  { Todo } from './../../models/Todo';
+import {Component, OnInit} from '@angular/core';
+import {Todo} from './../../models/Todo';
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-todos',
@@ -9,7 +10,9 @@ import  { Todo } from './../../models/Todo';
 export class TodosComponent implements OnInit {
 
   'todos': Todo[];
-  'inputTodo' : string ="";
+  'inputTodo': string = "";
+  // 'showValidationErrors': boolean ;
+
 
   constructor() {
   }
@@ -27,21 +30,27 @@ export class TodosComponent implements OnInit {
     ]
 
   }
-  toggleDone(id: number){
-    this.todos.map((v,i) => {
-      if(i == id) v.completed = !v.completed;
-      return v;
-    })
-}
-  deleteTodo(id:number){
-    this.todos=this.todos.filter((v,i) => i !== id);
-}
-addTodo(){
+
+  addTodo(form: NgForm) {
+    console.log(form);
+    if (form.invalid || null) return alert("Form is Invalid")
+    // {
+    //   return this.inputTodo = true
+    // }
+
     this.todos.push({
-      content:this.inputTodo,
-      completed:false
+      content: this.inputTodo,
+      completed: false
     });
-    this.inputTodo=''
-}
+    console.log(form);
+    this.inputTodo = ''
+    //
+    // this.showValidationErrors = false
+    // form.reset()
+  }
+
+  deleteTodo(id: number) {
+    this.todos = this.todos.filter((v, i) => i !== id);
+  }
 
 }
